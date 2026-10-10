@@ -1,0 +1,73 @@
+/*
+ * Taskbar: the strip and its start button.
+ * Markup (win7-vue <WinStartButton>):
+ *   <button class="start-button" aria-haspopup="menu" aria-expanded="false" aria-label="Start"></button>
+ * The doubled class outranks every button state rule in _button.scss, so none of the regular
+ * button chrome (borders, gradients, ::before/::after layers, focus pulse) leaks into it.
+ */
+/* Taskbar strip: start button, app buttons, tray and show-desktop in one horizontal row */
+.taskbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* App buttons sit right after the start button: this area takes all the free space, so the
+   tray and show-desktop stay at the right edge. */
+.taskbar-items {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  min-width: 0;
+}
+
+/* icon/start_button.png: 3 frames of 54px (normal, hover, pressed); the art is 54x26, 14px into each frame. */
+button.start-button.start-button {
+  box-sizing: border-box;
+  display: inline-block;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  outline: none;
+  animation: none;
+  transition: none;
+  background-color: transparent;
+  color: transparent; /* the art carries the label; aria-label names the button */
+  font-size: 0;
+  overflow: hidden;
+  vertical-align: middle;
+  cursor: default;
+
+  width: 54px;
+  height: 26px;
+  background-image: url("./icon/start_button.png");
+  background-repeat: no-repeat;
+  background-position: 0px -14px;
+
+  &::before,
+  &::after {
+    content: none;
+    display: none;
+  }
+
+  &:hover {
+    background-position: 0px -68px;
+  }
+
+  /* Pressed, and kept pressed while its menu is open */
+  &:active,
+  &.active,
+  &[aria-expanded="true"] {
+    background-position: 0px -122px;
+  }
+
+  &:focus-visible {
+    outline: 1px dotted #000;
+    outline-offset: 1px;
+  }
+}

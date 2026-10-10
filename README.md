@@ -104,6 +104,7 @@ Icons are inlined. Fonts are not: keep the `fonts/` folder next to the styleshee
 | Slider | `input[type=range]` (`.has-box-indicator`), `.is-vertical` wrapper |
 | Spinner | `.spinner` / `.loader` (`.animate`): the hourglass cursor |
 | Balloon | `[role=tooltip]` (`.is-top`, `.is-left`) |
+| Start button | `button.start-button` (`aria-expanded="true"` keeps it pressed): the raised **Start** button sprite |
 | Scrollbar | `.has-scrollbar` (WebKit/Blink only) |
 | Typography | `a`, `pre`, `code`; `.instruction` (`.instruction-primary`), `.header` (`.header-document`, `.header-group`) |
 
