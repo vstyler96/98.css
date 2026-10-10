@@ -1,0 +1,92 @@
+:root {
+  --w98-lvc-size: 4px; /* lvc = listview column indicator */
+  --w98-lv-bg-alt: #efefef;
+  --w98-lv-bg-h: #1084d0;
+  --w98-lv-c-h: #ffffff;
+}
+
+table {
+  font: var(--w98-font);
+  -webkit-font-smoothing: none;
+  color: var(--w98-el-c);
+  border-collapse: collapse;
+  position: relative;
+  text-align: left;
+  white-space: nowrap;
+  background-color: var(--w98-field-bg);
+
+  &.has-shadow {
+    box-shadow: 2px 2px 0 var(--w98-bd-dark);
+  }
+
+  > thead > tr > * {
+    position: sticky;
+    top: 0;
+    height: 17px;
+    box-shadow: var(--w98-el-sd);
+    background: var(--w98-surface);
+    box-sizing: border-box;
+    font-weight: normal;
+    padding: 0 var(--w98-space-grouped);
+    cursor: default;
+
+    &.highlighted {
+      box-shadow: var(--w98-el-sd-a);
+      padding: 1px calc(var(--w98-space-grouped) - 1px) 0 calc(var(--w98-space-grouped) + 1px);
+    }
+
+    &.indicator {
+      padding-right: calc(var(--w98-space-grouped) + var(--w98-lvc-size) * 3);
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: calc(50% - var(--w98-lvc-size) / 2);
+        right: var(--w98-space-grouped);
+        width: calc(var(--w98-lvc-size) * 2);
+        height: var(--w98-lvc-size);
+        background: var(--w98-bd-dark);
+        clip-path: polygon(0% 0%, 50% 100%, 100% 0%);
+      }
+
+      &.up::after {
+        clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+      }
+    }
+  }
+
+  &.interactive > tbody > tr {
+    cursor: pointer;
+  }
+
+  &.is-full {
+    width: 100%;
+  }
+
+  /* :not(.highlighted) so a selected row always wins */
+  &.is-striped > tbody > tr:nth-child(even):not(.highlighted) {
+    background-color: var(--w98-lv-bg-alt);
+  }
+
+  &.has-hover > tbody > tr:hover:not(.highlighted) {
+    color: var(--w98-lv-c-h);
+    background-color: var(--w98-lv-bg-h);
+  }
+
+  th.is-center,
+  td.is-center {
+    text-align: center;
+  }
+
+  > tbody > tr {
+    &.highlighted {
+      color: var(--w98-li-c-hl);
+      background-color: var(--w98-li-bg-hl);
+    }
+
+    > * {
+      padding: 0 var(--w98-space-grouped);
+      height: 14px;
+    }
+  }
+}

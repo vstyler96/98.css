@@ -7,29 +7,98 @@ const hljs = require("highlight.js");
 const mkdirp = require("mkdirp");
 const path = require("path");
 const postcss = require("postcss");
+const plugins = [
+  require("cssnano"),
+  require("autoprefixer"),
+  require("postcss-import"),
+  require("postcss-nested"),
+  require("postcss-calc"),
+  require("postcss-base64")({
+    root: process.cwd() + "/gui",
+    extensions: [".png", ".svg", ".gif"],
+  }),
+];
 
 const { homepage, version } = require("./package.json");
 
-function buildCSS() {
-  const input =
-    `/*! 98.css v${version} - ${homepage} */\n` + fs.readFileSync("style.css");
+/**
+ *
+ * @param {Object} options
+ * @param {boolean} [options.usePrefix] - Whether to apply a prefix for the CSS selectors.
+ * @param {boolean} [options.useInlineVars] - Whether to inline CSS variables.
+ */
+async function buildCSS({ usePrefix, useInlineVars } = {}) {
+  const input = `/*! 98.css v${version} - ${homepage} */\n` + fs.readFileSync("gui/index.scss");
 
-  return postcss()
-    .use(require("postcss-inline-svg"))
-    .use(require("postcss-css-variables"))
-    .use(require("postcss-calc"))
-    .use(require("postcss-copy")({ dest: "dist", template: "[name].[ext]" }))
-    .use(require("cssnano"))
-    .process(input, {
-      from: "style.css",
-      to: "dist/98.css",
-      map: { inline: false },
-    })
-    .then((result) => {
-      mkdirp.sync("dist");
-      fs.writeFileSync("dist/98.css", result.css);
-      fs.writeFileSync("dist/98.css.map", result.map.toString());
-    });
+  let targetFile = "dist/98.css";
+  let parser = postcss(plugins);
+
+  if (usePrefix) {
+    targetFile = "dist/98.scoped.css";
+    parser = postcss([
+      ...plugins,
+      require("postcss-prefix-selector")({
+        prefix: ".win98",
+        transform: (prefix, selector, prefixed) => {
+          if ("body" === selector) return selector + prefix;
+          if (":root" === selector) return prefix;
+          return prefixed;
+        },
+      }),
+    ]);
+  }
+  if (useInlineVars) {
+    targetFile = "dist/98.inline.css";
+    parser = postcss([...plugins, require("postcss-css-variables")]);
+  }
+
+  const result = await parser.process(input, {
+    from: "gui/index.scss",
+    to: targetFile,
+    map: { inline: false },
+  });
+
+  mkdirp.sync("dist");
+  fs.writeFileSync(targetFile, result.css);
+  fs.writeFileSync(targetFile + ".map", result.map.toString());
+}
+
+async function buildComponents() {
+  const files = fs.readdirSync("gui");
+  const targetFolder = "dist/gui";
+  const variablesFile = "_variables.scss";
+
+  const fileResults = files
+    .filter((file) => file.startsWith("_") && file !== variablesFile)
+    .map((file) => ({
+      name: file.slice(1),
+      content: fs.readFileSync("gui/" + variablesFile) + fs.readFileSync("gui/" + file),
+    }));
+
+  const parsedResults = fileResults.map(async (file) => {
+    const target = targetFolder + "/" + file.name.replace("scss", "css");
+    const parser = postcss([...plugins, require("postcss-css-variables")]);
+    return {
+      target,
+      parsed: await parser.process(file.content, {
+        from: "gui/" + file.name,
+        to: target,
+        map: { inline: false },
+      }),
+    };
+  });
+
+  mkdirp.sync(targetFolder);
+  const results = await Promise.all(parsedResults);
+  results.forEach((result) => fs.writeFileSync(result.target, result.parsed.css));
+}
+
+// Fonts are not inlined: copy them next to every stylesheet that references "./fonts/"
+function copyFonts() {
+  for (const dest of ["dist/fonts", "dist/gui/fonts"]) {
+    mkdirp.sync(dest);
+    glob.sync("gui/fonts/*.woff*").forEach((file) => fs.copyFileSync(file, path.join(dest, path.basename(file))));
+  }
 }
 
 function buildDocs() {
@@ -46,36 +115,50 @@ function buildDocs() {
     const magicBrackets = /\[\[(.*)\]\]/g;
     const dedented = dedent(code);
     const inline = dedented.replace(magicBrackets, "$1");
-    const escaped = hljs.highlight("html", dedented.replace(magicBrackets, ""))
-      .value;
+    const escaped = hljs.highlight("html", dedented.replace(magicBrackets, ""));
 
     return `<div class="example">
       ${inline}
       <details>
         <summary>Show code</summary>
-        <pre><code>${escaped}</code></pre>
+        <pre><code>${escaped.value}</code></pre>
       </details>
     </div>`;
   }
 
-  glob("docs/*", (err, files) => {
-    if (!err) {
-      files.forEach((srcFile) =>
-        fs.copyFileSync(srcFile, path.join("dist", path.basename(srcFile)))
-      );
-    } else throw "error globbing dist directory.";
-  });
+  glob.sync("docs/*", { ignore: ["docs/*.ejs"] }).forEach((srcFile) =>
+    fs.copyFileSync(srcFile, path.join("dist", path.basename(srcFile)))
+  );
   fs.writeFileSync(
     path.join(__dirname, "/dist/index.html"),
-    ejs.render(template, { getNewId, getCurrentId, example })
+    ejs.render(
+      template,
+      {
+        getNewId,
+        getCurrentId,
+        example,
+      },
+      { views: [path.resolve(__dirname, "./docs")] }
+    )
   );
 }
 
-function build() {
-  buildCSS()
-    .then(buildDocs)
-    .catch((err) => console.log(err));
+async function build(mode) {
+  try {
+    await buildCSS();
+    copyFonts();
+    buildDocs();
+
+    if (mode === "production") {
+      await buildCSS({ usePrefix: true });
+      await buildCSS({ useInlineVars: true });
+      await buildComponents();
+    }
+  } catch (err) {
+    console.error(err);
+    process.exitCode = 1;
+  }
 }
 module.exports = build;
 
-build();
+if (require.main === module) build("production");

@@ -2,6 +2,22 @@ body {
   margin: 0;
   padding: 0;
   background: #c0c0c0;
+  /* 98.css no longer styles body, so the docs page does it */
+  font-family: Arial;
+  font-size: 12px;
+  color: #222222;
+}
+
+h1 {
+  font-size: 5rem;
+}
+
+h2 {
+  font-size: 2.5rem;
+}
+
+h4 {
+  font-size: 1.5rem;
 }
 
 main {
@@ -92,28 +108,18 @@ blockquote footer {
   border-left: 1px solid #808080;
 }
 
-details {
+.example > details {
   margin-top: 12px;
+  margin-left: 12px;
 }
 
-summary {
+.example > details > summary {
   user-select: none;
   cursor: pointer;
-  display: inline;
 }
 
-details[open] summary {
+.example > details[open] > summary {
   margin-bottom: 8px;
-}
-
-button.focused {
-  outline: 1px dotted #000000;
-  outline-offset: -4px;
-}
-
-button.active {
-  box-shadow: inset -1px -1px #ffffff, inset 1px 1px #0a0a0a,
-    inset -2px -2px #dfdfdf, inset 2px 2px #808080;
 }
 
 @media (max-width: 480px) {

@@ -1,0 +1,43 @@
+:root {
+  /* Naming convention:
+   * `--w98-<component>-<property>-<state>`
+   * where:
+   * <component> is the name of the component (el = element, w = window, etc.)
+   * <property> is the property being defined (bg = background, bd = border, c = color, sd = shadow, etc.)
+   * <state> is the state of the component (d = disabled, a = active, hl = highlighted, etc.)
+   */
+
+  --w98-font: 11px "Pixelated MS Sans Serif", Arial, sans-serif;
+  --w98-surface: #c0c0c0;
+
+  /* The four bevel colors of the Windows 98 3D look */
+  --w98-bd-light: #ffffff; /* button highlight */
+  --w98-bd-face: #dfdfdf; /* button face */
+  --w98-bd-dark: #808080; /* button shadow */
+  --w98-bd-darker: #0a0a0a; /* window frame */
+
+  --w98-el-c: #222222;
+  --w98-el-c-d: var(--w98-bd-dark);
+  --w98-el-bg: var(--w98-surface);
+  --w98-field-bg: var(--w98-bd-light);
+  --w98-field-bg-d: var(--w98-surface);
+
+  /* Selection (highlighted items) */
+  --w98-li-bg-hl: #000080;
+  --w98-li-c-hl: #ffffff;
+
+  --w98-space: 8px;
+  --w98-space-grouped: 6px;
+
+  /* Bevels */
+  --w98-el-sd: inset -1px -1px var(--w98-bd-darker), inset 1px 1px var(--w98-bd-light),
+    inset -2px -2px var(--w98-bd-dark), inset 2px 2px var(--w98-bd-face);
+  --w98-el-sd-a: inset -1px -1px var(--w98-bd-light), inset 1px 1px var(--w98-bd-darker),
+    inset -2px -2px var(--w98-bd-face), inset 2px 2px var(--w98-bd-dark);
+  --w98-field-sd: inset -1px -1px var(--w98-bd-light), inset 1px 1px var(--w98-bd-dark),
+    inset -2px -2px var(--w98-bd-face), inset 2px 2px var(--w98-bd-darker);
+  /* Window borders flip button-face and button-highlight */
+  --w98-w-sd: inset -1px -1px var(--w98-bd-darker), inset 1px 1px var(--w98-bd-face),
+    inset -2px -2px var(--w98-bd-dark), inset 2px 2px var(--w98-bd-light);
+  --w98-status-sd: inset -1px -1px var(--w98-bd-face), inset 1px 1px var(--w98-bd-dark);
+}

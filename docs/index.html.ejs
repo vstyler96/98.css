@@ -18,33 +18,52 @@
   <link rel="stylesheet" href="docs.css">
   <link rel="stylesheet" href="vs.css">
 </head>
-<body ontouchstart>
+<body class="has-scrollbar" ontouchstart>
   <aside>
-    <ul class="tree-view">
+    <ul class="tree-view has-container has-connector has-scrollbar">
       <li><a href="#intro">Intro</a></li>
+      <li><a href="#migrating">Migrating from v0.x / 1.x</a></li>
       <li>
         <a href="#components">Components</a>
         <ul>
+          <li><a href="#balloon">Balloon</a></li>
           <li><a href="#button">Button</a></li>
           <li><a href="#checkbox">Checkbox</a></li>
-          <li><a href="#option-button">OptionButton</a></li>
-          <li><a href="#group-box">GroupBox</a></li>
-          <li><a href="#text-box">TextBox</a></li>
-          <li><a href="#slider">Slider</a></li>
+          <li><a href="#collapse">Collapse</a></li>
+          <li><a href="#combobox">ComboBox</a></li>
           <li><a href="#dropdown">Dropdown</a></li>
+          <li><a href="#group-box">GroupBox</a></li>
+          <li><a href="#listbox">ListBox</a></li>
+          <li><a href="#listview">ListView</a></li>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#menubar">MenuBar</a></li>
+          <li><a href="#option-button">OptionButton</a></li>
+          <li><a href="#progressbar">ProgressBar</a></li>
+          <li><a href="#scrollbar">Scrollbar</a></li>
+          <li><a href="#searchbox">SearchBox</a></li>
+          <li><a href="#slider">Slider</a></li>
+          <li><a href="#spinner">Spinner</a></li>
+          <li><a href="#tabs">Tabs</a></li>
+          <li><a href="#text-box">TextBox</a></li>
+          <li><a href="#tree-view">TreeView</a></li>
+          <li><a href="#typography">Typography</a></li>
           <li>
             <a href="#window">Window</a>
             <ul>
               <li><a href="#title-bar">Title Bar</a></li>
               <li><a href="#window-contents">Window contents</a></li>
               <li><a href="#status-bar">Status Bar</a></li>
+              <li><a href="#dialog">Dialog</a></li>
             </ul>
           </li>
-          <li><a href="#tree-view">TreeView</a></li>
-          <li><a href="#tabs">Tabs</a></li>
-          <li><a href="#table-view">TableView</a></li>
-          <li><a href="#progress-indicator">Progress Indicator</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#extras">Extras</a>
+        <ul>
+          <li><a href="#sunken-panel">Sunken panel</a></li>
           <li><a href="#field-borders">Field borders</a></li>
+          <li><a href="#vertical-bar">Vertical bar</a></li>
         </ul>
       </li>
       <li><a href="#issues-contributing-etc">Issues, Contributing, etc.</a></li>
@@ -57,11 +76,14 @@
     <p>A design system for building faithful recreations of old UIs.</p>
 
     <p>
-      <a href="http://npm.im/98.css" rel="nofollow" style="text-decoration: none">
-        <img height="29" alt="npm" src="https://98badges.now.sh/api/version" style="max-width:100%;">
+      <a href="https://www.npmjs.com/package/@vstyler96/98.css" rel="nofollow" style="text-decoration: none">
+        <img height="20" alt="npm" src="https://img.shields.io/npm/v/@vstyler96/98.css" style="max-width:100%;">
       </a>
-      <a href="https://unpkg.com/98.css" rel="nofollow" style="text-decoration: none">
-        <img height="29" alt="gzip size" src="https://98badges.now.sh/api/size" style="max-width:100%;">
+      <a href="https://www.npmjs.com/package/@vstyler96/98.css" rel="nofollow" style="text-decoration: none">
+        <img height="20" alt="npm downloads" src="https://img.shields.io/npm/dt/@vstyler96/98.css" style="max-width:100%;">
+      </a>
+      <a href="https://unpkg.com/@vstyler96/98.css@2/dist/98.css" rel="nofollow" style="text-decoration: none">
+        <img height="20" alt="gzip size" src="https://img.shields.io/bundlephobia/minzip/@vstyler96/98.css" style="max-width:100%;">
       </a>
     </p>
 
@@ -117,15 +139,59 @@
 
     <pre style="max-width: 375px"><code>&lt;link
   rel="stylesheet"
-  href="https://unpkg.com/98.css"
+  href="https://unpkg.com/@vstyler96/98.css@2/dist/98.css"
 &gt;</code></pre>
 
     <p>
-      You can install 98.css from the <a href="https://github.com/jdan/98.css/releases">GitHub releases page</a>, or <a href="https://www.npmjs.com/package/98.css">from npm</a>.
+      You can install 98.css from the <a href="https://github.com/vstyler96/98.css/releases">GitHub releases page</a>, or <a href="https://www.npmjs.com/package/@vstyler96/98.css">from npm</a>, then import it from your bundler.
     </p>
-    <pre style="max-width: 375px"><code>npm install 98.css</code></pre>
+    <pre style="max-width: 375px"><code>npm install @vstyler96/98.css</code></pre>
+    <pre style="max-width: 375px"><code>import "@vstyler96/98.css/dist/98.css";</code></pre>
+
+    <p>The package ships four builds:</p>
+    <ul>
+      <li><code>dist/98.css</code>: the default build. Custom properties (<code>--w98-*</code>) stay live, so you can re-theme at runtime.</li>
+      <li><code>dist/98.scoped.css</code>: every selector is prefixed with <code>.win98</code>, so only elements inside a <code>.win98</code> container are styled.</li>
+      <li><code>dist/98.inline.css</code>: custom properties resolved to plain values, for old browsers.</li>
+      <li><code>dist/gui/&lt;component&gt;.css</code>: one file per component, with variables inlined. Fonts live in <code>typography.css</code>.</li>
+    </ul>
+    <p>
+      Fonts are not inlined: keep the <code>fonts/</code> folder next to the stylesheet you use.
+      98.css does not style <code>body</code>, and scrollbars are opt-in with the <code>has-scrollbar</code> class.
+    </p>
+
+    <h2 id="migrating">Migrating from v0.x / 1.x</h2>
+    <p>2.0 is a clean break from v0.x: old class names are not kept as aliases. Coming from 1.x, nothing was removed; 2.0 only adds the ListView modifiers <code>is-striped</code>, <code>has-hover</code>, <code>is-full</code> and <code>is-center</code>.</p>
+    <ul>
+      <li>Package: the package moved from <code>98.css</code> to <code>@vstyler96/98.css</code>.</li>
+      <li>Title-bar buttons: <code>.close</code>, <code>.minimize</code>, <code>.maximize</code>, <code>.restore</code>, <code>.help</code> become <code>.is-close</code>, <code>.is-minimize</code>, etc. <code>aria-label="Close"</code> (and friends) still work on their own.</li>
+      <li>Tabs: <code>&lt;li role="tab"&gt;&lt;a&gt;</code> becomes <code>&lt;button aria-selected="true"&gt;</code> inside <code>menu[role=tablist]</code>; <code>.multirows</code> becomes <code>.justified</code>. Any <code>[role=tabpanel]</code> is styled, not only <code>.window[role=tabpanel]</code>.</li>
+      <li>Progress: <code>.progress-indicator &gt; .progress-indicator-bar</code> becomes <code>div[role=progressbar] &gt; div</code>. Segmented is now the default; add <code>.is-smooth</code> for the old solid bar.</li>
+      <li>Tree view: the white box, dotted connectors and +/- buttons are now opt-in. Use <code>ul.tree-view.has-container.has-connector.has-collapse-button</code> for the v0 look.</li>
+      <li>Scrollbars: the global <code>::-webkit-scrollbar</code> styling is gone. Add <code>.has-scrollbar</code> to each scrolling element.</li>
+      <li>No more global <code>body</code>, <code>h1</code>&ndash;<code>h4</code>, <code>u</code> or <code>:disabled</code> rules. Each component styles its own disabled state.</li>
+      <li><code>.field-border-disabled</code> becomes <code>.field-border.is-disabled</code>.</li>
+      <li>Custom properties are renamed with a <code>--w98-</code> prefix (e.g. <code>--surface</code> → <code>--w98-surface</code>, <code>--button-shadow</code> → <code>--w98-bd-dark</code>). See <code>gui/_variables.scss</code>.</li>
+      <li><code>input[type=search]</code> styles moved to the SearchBox component.</li>
+    </ul>
 
     <h2 id="components">Components</h2>
+
+    <section class="component">
+      <h3 id="balloon">Balloon</h3>
+      <div>
+        <p>
+          A balloon (tooltip) is any element with <code>role="tooltip"</code>. The tail points up from the
+          top-left by default. Use <code>is-top</code> to put the tail at the bottom (the balloon sits above
+          its target) and <code>is-left</code> to move the tail to the right.
+        </p>
+
+        <%- example(`
+          <div role="tooltip"[[ style="margin: 16px 0"]]>A balloon with a tail</div>
+          <div role="tooltip" class="is-top is-left"[[ style="margin: 16px 0"]]>Tail at the bottom right</div>
+        `) %>
+      </div>
+    </section>
 
     <section class="component">
       <h3 id="button">Button</h3>
@@ -177,6 +243,16 @@
         </p>
 
         <%- example(`<button[[ class="focused"]]>I am focused</button>`) %>
+
+        <p>
+          File inputs get the button look through <code>::file-selector-button</code>. To show only a button,
+          wrap a hidden file input in a <code>label</code> with <code>role="button"</code>.
+        </p>
+
+        <%- example(`
+          <input type="file">
+          <label role="button">Browse...<input type="file"></label>
+        `) %>
       </div>
     </section>
 
@@ -419,6 +495,55 @@
 
     </section>
 
+
+    <section class="component">
+      <h3 id="searchbox">SearchBox</h3>
+      <div>
+        <p>
+          A search field is an <code>input[type=search]</code>. Wrap it in a <code>searchbox</code> container
+          with a <code>button[aria-label=search]</code> to add a search button.
+        </p>
+
+        <%- example(`
+          <input type="search" placeholder="Search">
+          <br><br>
+          <div class="searchbox">
+            <input type="search" placeholder="Search" aria-label="Search the web">
+            <button aria-label="search"></button>
+          </div>
+        `) %>
+      </div>
+    </section>
+
+    <section class="component">
+      <h3 id="combobox">ComboBox</h3>
+      <div>
+        <blockquote>
+          A <em>combo box</em> is a control that combines a text box with a list box. This allows the
+          user to type in an entry or choose one from the list.
+
+          <footer>&mdash; Microsoft Windows User Experience p. 177</footer>
+        </blockquote>
+
+        <p>
+          Wrap a text <code>input</code> and a <code>button</code> in a <code>combobox</code> container.
+          Pair it with a <code>datalist</code> or your own <a href="#listbox">ListBox</a> for the options.
+        </p>
+
+        <%- example(`
+          <div class="combobox">
+            <input type="text" list="fonts${getNewId()}" value="Arial">
+            <button aria-label="Show options"></button>
+            <datalist id="fonts${getCurrentId()}">
+              <option>Arial</option>
+              <option>Courier New</option>
+              <option>Times New Roman</option>
+            </datalist>
+          </div>
+        `) %>
+      </div>
+    </section>
+
     <section class="component">
       <h3 id="slider">Slider</h3>
       <div>
@@ -513,6 +638,142 @@
       </div>
     </section>
 
+
+    <section class="component">
+      <h3 id="listbox">ListBox</h3>
+      <div>
+        <blockquote>
+          A <em>list box</em> is a control for displaying a list of choices for the user.
+
+          <footer>&mdash; Microsoft Windows User Experience p. 170</footer>
+        </blockquote>
+
+        <p>
+          Use <code>select[multiple]</code>, or any element with <code>role="listbox"</code> whose
+          children have <code>role="option"</code>. Mark the selected option with <code>aria-selected="true"</code>.
+          Add <code>has-hover</code> to highlight options on hover, and <code>has-shadow</code> for a drop shadow.
+        </p>
+
+        <%- example(`
+          <ul role="listbox" class="has-hover" style="width: 150px">
+            <li role="option">Lorem</li>
+            <li role="option" aria-selected="true">Ipsum</li>
+            <li role="option">Dolor</li>
+            <li role="option">Sit</li>
+          </ul>
+          <br>
+          <select multiple style="width: 150px">
+            <option>Amet</option>
+            <option selected>Consectetur</option>
+            <option>Adipiscing</option>
+          </select>
+        `) %>
+      </div>
+    </section>
+
+    <section class="component">
+      <h3 id="collapse">Collapse</h3>
+      <div>
+        <p>
+          A collapsible section is a <code>details</code> element with a <code>summary</code>.
+        </p>
+
+        <%- example(`
+          <details[[ style="margin-left: 12px"]]>
+            <summary>Advanced settings</summary>
+            <p>Nothing to see here.</p>
+          </details>
+        `) %>
+      </div>
+    </section>
+
+    <section class="component">
+      <h3 id="menu">Menu</h3>
+      <div>
+        <blockquote>
+          A <em>menu</em> is a list of textual or graphical choices from which a user can choose.
+
+          <footer>&mdash; Microsoft Windows User Experience p. 130</footer>
+        </blockquote>
+
+        <p>
+          A menu is a <code>ul[role=menu]</code> with <code>li[role=menuitem]</code> children. Put an
+          <code>a</code> or a <code>button</code> in each item, or give the item a <code>tabindex</code>.
+          Items that open a submenu get <code>aria-haspopup="true"</code> and a nested <code>ul[role=menu]</code>.
+        </p>
+        <p>
+          Submenus open on focus/click. Add <code>can-hover</code> to the root to also open them on hover.
+          Use <code>has-divider</code> for a separator after an item, and <code>aria-disabled</code> to grey an item out.
+          Checkbox and radio inputs inside an item render as menu checkmarks and bullets.
+        </p>
+
+        <%- example(`
+          <ul role="menu" class="can-hover" style="width: 200px">
+            <li role="menuitem" tabindex="0" aria-haspopup="true">
+              Arrange Icons
+              <ul role="menu">
+                <li role="menuitem"><a href="#menu">by Name</a></li>
+                <li role="menuitem"><a href="#menu">by Type</a></li>
+                <li role="menuitem"><a href="#menu">by Size</a></li>
+                <li role="menuitem"><a href="#menu">by Date</a></li>
+              </ul>
+            </li>
+            <li role="menuitem" class="has-divider"><a href="#menu">Line up Icons</a></li>
+            <li role="menuitem"><a href="#menu">Refresh</a></li>
+            <li role="menuitem" aria-disabled="true"><a href="#menu">Paste</a></li>
+            <li role="menuitem" aria-disabled="true" class="has-divider"><a href="#menu">Paste Shortcut</a></li>
+            <li role="menuitem">
+              <input type="checkbox" id="menu${getNewId()}" checked>
+              <label for="menu${getCurrentId()}">Status Bar</label>
+            </li>
+            <li role="menuitem" class="has-divider">
+              <input type="radio" name="menu-view" id="menu${getNewId()}" checked>
+              <label for="menu${getCurrentId()}">Large Icons</label>
+            </li>
+            <li role="menuitem"><button>Properties</button></li>
+          </ul>
+        `) %>
+      </div>
+    </section>
+
+    <section class="component">
+      <h3 id="menubar">MenuBar</h3>
+      <div>
+        <p>
+          A menu bar is a <code>ul[role=menubar]</code> whose items hold a <code>ul[role=menu]</code>.
+        </p>
+
+        <%- example(`
+          <ul role="menubar" class="can-hover">
+            <li role="menuitem" tabindex="0" aria-haspopup="true">
+              File
+              <ul role="menu">
+                <li role="menuitem"><a href="#menubar">New</a></li>
+                <li role="menuitem"><a href="#menubar">Open...</a></li>
+                <li role="menuitem" class="has-divider"><a href="#menubar">Save</a></li>
+                <li role="menuitem"><a href="#menubar">Exit</a></li>
+              </ul>
+            </li>
+            <li role="menuitem" tabindex="0" aria-haspopup="true">
+              Edit
+              <ul role="menu">
+                <li role="menuitem"><a href="#menubar">Undo</a></li>
+                <li role="menuitem" class="has-divider"><a href="#menubar">Cut</a></li>
+                <li role="menuitem" tabindex="0" aria-haspopup="true">
+                  Paste Special
+                  <ul role="menu">
+                    <li role="menuitem"><button>As Text</button></li>
+                    <li role="menuitem"><button>As Picture</button></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li role="menuitem" tabindex="0">Help</li>
+          </ul>
+        `) %>
+      </div>
+    </section>
+
     <h3 id="window">Window</h3>
     <p>
       The following components illustrate how to build complete windows using
@@ -596,7 +857,8 @@
         `) %>
 
         <p>
-          Each <code>aria-label</code> also has a corresponding styling class to render the title bar buttons,
+          Each <code>aria-label</code> also has a corresponding styling class (<code>is-minimize</code>,
+          <code>is-maximize</code>, <code>is-restore</code>, <code>is-help</code>, <code>is-close</code>) to render the title bar buttons,
           to let the <code>aria-label</code> text be in other languages without causing rendering, accessibility, or localization issues.
         </p>
 
@@ -604,9 +866,9 @@
           <div class="title-bar">
             <div class="title-bar-text">A Title Bar using Button Styling Classes</div>
             <div class="title-bar-controls">
-              <button aria-label="Any Text" class="minimize"></button>
-              <button aria-label="Any Text" class="maximize"></button>
-              <button aria-label="Any Text" class="close"></button>
+              <button aria-label="Any Text" class="is-minimize"></button>
+              <button aria-label="Any Text" class="is-maximize"></button>
+              <button aria-label="Any Text" class="is-close"></button>
             </div>
           </div>
 
@@ -615,9 +877,9 @@
           <div class="title-bar">
             <div class="title-bar-text">A Maximized Title Bar using Button Styling Classes</div>
             <div class="title-bar-controls">
-              <button aria-label="Any Text" class="minimize"></button>
-              <button aria-label="Any Text" class="restore"></button>
-              <button aria-label="Any Text" class="close"></button>
+              <button aria-label="Any Text" class="is-minimize"></button>
+              <button aria-label="Any Text" class="is-restore"></button>
+              <button aria-label="Any Text" class="is-close"></button>
             </div>
           </div>
 
@@ -626,8 +888,8 @@
           <div class="title-bar">
             <div class="title-bar-text">A Helpful Bar using Button Styling Classes</div>
             <div class="title-bar-controls">
-              <button aria-label="Any Text" class="help"></button>
-              <button aria-label="Any Text" class="close"></button>
+              <button aria-label="Any Text" class="is-help"></button>
+              <button aria-label="Any Text" class="is-close"></button>
             </div>
           </div>
         `) %>
@@ -648,7 +910,8 @@
       `) %>
 
 		<p>
-          You can make a title bar "inactive" by adding <code>inactive</code> class,
+          Title bars are active by default. You can make a title bar "inactive" by adding the
+          <code>inactive</code> class to it or to its <code>window</code> (a 98.css extra),
 		  useful when making more than one window.
         </p>
 		 <%- example(`
@@ -713,6 +976,29 @@
             </div>
           </div>
         `) %>
+
+        <p>
+          Add <code>has-space</code> to <code>window-body</code> for extra padding, or <code>is-bright</code>
+          to the window for a white work area. Put the dialog buttons in a <code>window-footer</code>.
+        </p>
+
+        <%- example(`
+          <div class="window is-bright" style="width: 300px">
+            <div class="title-bar">
+              <div class="title-bar-text">A Window With A Footer</div>
+              <div class="title-bar-controls">
+                <button aria-label="Close"></button>
+              </div>
+            </div>
+            <div class="window-body has-space">
+              <p>Are you sure you want to delete this file?</p>
+            </div>
+            <div class="window-footer">
+              <button class="default">Yes</button>
+              <button>No</button>
+            </div>
+          </div>
+        `) %>
       </div>
     </section>
 
@@ -754,8 +1040,35 @@
           </div>
         </div>
       `) %>
+      </div>
+    </section>
 
+    <section class="component">
+      <h4 id="dialog">Dialog</h4>
+      <div>
+        <p>
+          A <code>window</code> with <code>role="dialog"</code> is fixed in the middle of the viewport and hidden
+          until it is the URL target (<code>:target</code>) or has the <code>open</code> attribute.
+        </p>
 
+        <%- example(`
+          <a href="#dialog-demo">Open the dialog</a>
+          <div class="window" role="dialog" id="dialog-demo" aria-labelledby="dialog-demo-title" style="width: 260px">
+            <div class="title-bar">
+              <div class="title-bar-text" id="dialog-demo-title">Shut Down Windows</div>
+              <div class="title-bar-controls">
+                <button aria-label="Close" onclick="history.back()"></button>
+              </div>
+            </div>
+            <div class="window-body">
+              <p>It's now safe to turn off your computer.</p>
+            </div>
+            <div class="window-footer">
+              <button class="default" onclick="history.back()">OK</button>
+            </div>
+          </div>
+        `) %>
+      </div>
     </section>
 
     <section class="component">
@@ -774,11 +1087,12 @@
         <p>
           To render a tree view, use an <code>ul</code> element with the
           <code>tree-view</code> class. The children of this list (<code>li</code>
-          elements), can contain whatever you'd like.
+          elements), can contain whatever you'd like. Add <code>has-container</code>
+          for the white sunken box.
         </p>
 
         <%- example(`
-          <ul class="tree-view">
+          <ul class="tree-view has-container">
             <li>We can put</li>
             <li><strong style="color: purple">✨ Whatever ✨</strong></li>
             <li>We want in here</li>
@@ -787,16 +1101,17 @@
 
         <p>
           To make this a tree, we can nest further <code>ul</code> elements
-          (no class needed on these). This will provide them with a nice dotted
-          border and indentation to illustrate the structure of the tree.
+          (no class needed on these). Add <code>has-connector</code> to draw the
+          dotted lines that illustrate the structure of the tree.
         </p>
         <p>
           To create expandable sections, wrap child lists inside of
-          <code>details</code> elements.
+          <code>details</code> elements. Add <code>has-collapse-button</code>
+          to render the classic +/- boxes instead of arrows.
         </p>
 
         <%- example(`
-          <ul class="tree-view">
+          <ul class="tree-view has-container has-connector has-collapse-button">
             <li>Table of Contents</li>
             <li>What is web development?</li>
             <li>
@@ -857,8 +1172,8 @@
 
         <p>
           To render a tab list, use a <code>menu</code> element with the
-          <code>[role=tablist]</code> attribute. The children of this menu (<code>li</code>
-          elements), should get a <code>[role=tab]</code> attribute.
+          <code>[role=tablist]</code> attribute. Its children are <code>button</code>
+          elements, and the panel that follows gets <code>[role=tabpanel]</code>.
         </p>
 
         <p>
@@ -871,60 +1186,68 @@
           <p>Hello, world!</p>
 
           <menu role="tablist">
-            <li role="tab" aria-selected="true"><a href="#tabs">Desktop</a></li>
-            <li role="tab"><a href="#tabs">My computer</a></li>
-            <li role="tab"><a href="#tabs">Control panel</a></li>
-            <li role="tab"><a href="#tabs">Devices manager</a></li>
-            <li role="tab"><a href="#tabs">Hardware profiles</a></li>
-            <li role="tab"><a href="#tabs">Performance</a></li>
+            <button role="tab" aria-selected="true" aria-controls="tab-desktop">Desktop</button>
+            <button role="tab" aria-controls="tab-desktop">My computer</button>
+            <button role="tab" aria-controls="tab-desktop">Control panel</button>
+            <button role="tab" aria-controls="tab-desktop">Devices manager</button>
+            <button role="tab" aria-controls="tab-desktop">Hardware profiles</button>
+            <button role="tab" aria-controls="tab-desktop">Performance</button>
           </menu>
-          <div class="window" role="tabpanel">
-            <div class="window-body">
-              <p>the tab content</p>
-            </div>
-          </div>
+          <article role="tabpanel" id="tab-desktop">
+            <p>the tab content</p>
+          </article>
         </div>
         `) %>
 
         <p>
-          To create multirows tabs, add a <code>multirows</code>
-          class to the <code>menu</code> tag.
+          To stretch the tabs across the full width (and build multi-row tabs), add a
+          <code>justified</code> class to the <code>menu</code> tag.
         </p>
 
         <%- example(`
         <div class="window-body">
           <p>Hello, world!</p>
 
-          <menu role="tablist" class="multirows">
-            <li role="tab"><a href="#tabs">Desktop</a></li>
-            <li role="tab"><a href="#tabs">My computer</a></li>
-            <li role="tab"><a href="#tabs">Control panel</a></li>
-            <li role="tab"><a href="#tabs">Devices manager</a></li>
-            <li role="tab"><a href="#tabs">Hardware profiles</a></li>
-            <li role="tab"><a href="#tabs">Performance</a></li>
+          <menu role="tablist" class="justified">
+            <button role="tab">Desktop</button>
+            <button role="tab">My computer</button>
+            <button role="tab">Control panel</button>
+            <button role="tab">Devices manager</button>
+            <button role="tab">Hardware profiles</button>
+            <button role="tab">Performance</button>
           </menu>
-          <menu role="tablist" class="multirows">
-            <li role="tab"><a href="#tabs">Users</a></li>
-            <li role="tab"><a href="#tabs">Network</a></li>
-            <li role="tab"><a href="#tabs">Programs</a></li>
-            <li role="tab"><a href="#tabs">Services</a></li>
-            <li role="tab"><a href="#tabs">Resources</a></li>
-            <li role="tab"><a href="#tabs">Advanced</a></li>
+          <menu role="tablist" class="justified">
+            <button role="tab">Users</button>
+            <button role="tab" aria-selected="true">Network</button>
+            <button role="tab">Programs</button>
+            <button role="tab">Services</button>
+            <button role="tab">Resources</button>
+            <button role="tab">Advanced</button>
           </menu>
-          <div class="window" role="tabpanel">
-            <div class="window-body">
-              <p>the tab content</p>
-            </div>
-          </div>
+          <article role="tabpanel">
+            <p>the tab content</p>
+          </article>
         </div>
         `) %>
-              </div>
+      </div>
     </section>
+
     <section class="component">
-      <h3 id="table-view">TableView</h3>
+      <h3 id="listview">ListView</h3>
       <div>
+        <blockquote>
+          A <em>list view control</em> is a special extended list box that displays a collection of items.
+
+          <footer>&mdash; Microsoft Windows User Experience p. 179</footer>
+        </blockquote>
         <p>
-          To render a table view, use a table element. Wrap it with a div element with <code>sunken-panel</code> class to provide proper border and overflow container.
+          To render a list view, use a table element. Wrap it with a div element with <code>sunken-panel</code> class
+          (see <a href="#sunken-panel">Extras</a>) to provide proper border and overflow container.
+        </p>
+        <p>
+          Give a column header the <code>highlighted</code> class to show it pressed, and
+          <code>indicator</code> (plus <code>up</code>) to show the sort direction.
+          Add <code>has-shadow</code> to the table for a drop shadow.
         </p>
         <p>
           With a bit of extra scripting you can make table view interactive. Give <code>interactive</code> class to
@@ -933,11 +1256,11 @@
         </p>
 
         <%- example(`
-          <div class="sunken-panel" style="height: 120px; width: 240px;">
+          <div class="sunken-panel has-scrollbar" style="height: 120px; width: 240px;">
             <table class="interactive">
               <thead>
                 <tr>
-                  <th>Name</th>
+                  <th class="highlighted indicator">Name</th>
                   <th>Version</th>
                   <th>Company</th>
                 </tr>
@@ -1014,11 +1337,36 @@
             });
           </script>
       `) %>
+
+        <p>
+          Add <code>is-striped</code> for alternating row colors, <code>has-hover</code> to highlight the row
+          under the pointer, and <code>is-full</code> to fill the container width. Center a column with
+          <code>is-center</code> on its <code>th</code> and <code>td</code> cells.
+        </p>
+
+        <%- example(`
+          <table class="is-striped has-hover is-full">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th class="is-center">Size</th>
+                <th>Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>autoexec.bat</td><td class="is-center">1 KB</td><td>MS-DOS Batch File</td></tr>
+              <tr><td>config.sys</td><td class="is-center">1 KB</td><td>System file</td></tr>
+              <tr class="highlighted"><td>win.ini</td><td class="is-center">4 KB</td><td>Configuration Settings</td></tr>
+              <tr><td>system.ini</td><td class="is-center">3 KB</td><td>Configuration Settings</td></tr>
+              <tr><td>command.com</td><td class="is-center">94 KB</td><td>MS-DOS Application</td></tr>
+            </tbody>
+          </table>
+        `) %>
     </div>
     </section>
 
     <section class="component">
-      <h3 id="progress-indicator">Progress Indicator</h3>
+      <h3 id="progressbar">ProgressBar</h3>
       <div>
         <blockquote>
           You can use a <em>progress indicator</em>, also known as a <em>progress bar control</em>, to show the percentage of completion of a lengthy operation.
@@ -1029,25 +1377,120 @@
         </blockquote>
 
         <p>
-          There are two types of progress bars: solid and segmented. The solid version is the default. To declare a segmented bar, you should use the <code>segmented</code> class.
+          A progress bar is a <code>div</code> with <code>role="progressbar"</code> holding a
+          <code>div</code> whose width is the value. The bar is segmented by default.
         </p>
 
         <%- example(`
-          <div class="progress-indicator">
-            <span class="progress-indicator-bar"  style="width: 40%;" />
+          <div role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="40">
+            <div style="width: 40%"></div>
           </div>
         `) %>
 
+        <p>
+          Use <code>paused</code> or <code>error</code> to change its color, <code>animate</code> to make the
+          segments crawl, and <code>marquee</code> (with no child) for an indeterminate bar.
+          The solid bar from v0.x is available as <code>is-smooth</code>.
+        </p>
+
         <%- example(`
-          <div class="progress-indicator segmented">
-            <span class="progress-indicator-bar" style="width: 40%;" />
+          <div role="progressbar" class="paused"><div style="width: 60%"></div></div>
+          <div role="progressbar" class="error"><div style="width: 80%"></div></div>
+          <div role="progressbar" class="animate"><div style="width: 50%"></div></div>
+          <div role="progressbar" class="marquee"></div>
+          <div role="progressbar" class="is-smooth"><div style="width: 40%"></div></div>
+        `) %>
+      </div>
+    </section>
+
+    <section class="component">
+      <h3 id="scrollbar">Scrollbar</h3>
+      <div>
+        <p>
+          Scrollbars are opt-in: add <code>has-scrollbar</code> to the element that scrolls
+          (WebKit/Blink browsers only).
+        </p>
+
+        <%- example(`
+          <div class="has-scrollbar" style="width: 300px; height: 100px; overflow: auto">
+            <div style="height: 300px; width: 600px">This box scrolls both ways.</div>
           </div>
         `) %>
       </div>
     </section>
 
     <section class="component">
-      <h3 id="field-borders">Field borders</a></li></h3>
+      <h3 id="spinner">Spinner</h3>
+      <div>
+        <p>
+          Windows 98 had no spinner, so <code>spinner</code> (or <code>loader</code>) renders the hourglass
+          busy cursor. Add <code>animate</code> to make it flip.
+        </p>
+
+        <%- example(`
+          <span class="spinner" aria-label="Loading"></span>
+          <span class="spinner animate" aria-label="Loading"></span>
+        `) %>
+      </div>
+    </section>
+
+    <section class="component">
+      <h3 id="typography">Typography</h3>
+      <div>
+        <p>
+          Links, <code>pre</code> blocks and the following text classes are styled.
+        </p>
+
+        <%- example(`
+          <p class="header header-document">Document header</p>
+          <p class="header header-group">Group header</p>
+          <p class="instruction instruction-primary">Primary instruction</p>
+          <p class="instruction">Secondary instruction</p>
+          <a href="#typography">A link</a>
+        `) %>
+      </div>
+    </section>
+
+    <h2 id="extras">Extras</h2>
+    <p>
+      These classes are specific to 98.css and are not part of the component API shared with
+      XP.css, 7.css, system.css and x.css.
+    </p>
+
+    <section class="component">
+      <h3 id="sunken-panel">Sunken panel</h3>
+      <div>
+        <p>
+          <code>sunken-panel</code> draws the sunken scroll container used around list views.
+          Tables can also take <code>interactive</code> (pointer cursor on body rows) and rows
+          <code>highlighted</code>, as shown in <a href="#listview">ListView</a>.
+        </p>
+
+        <%- example(`
+          <div class="sunken-panel" style="height: 60px; width: 200px; padding: 4px">
+            Some content
+          </div>
+        `) %>
+      </div>
+    </section>
+
+    <section class="component">
+      <h3 id="vertical-bar">Vertical bar</h3>
+      <div>
+        <p><code>vertical-bar</code> is the raised grip used to separate toolbar groups.</p>
+
+        <%- example(`
+          <div class="field-row">
+            <div class="vertical-bar"></div>
+            <button>Cut</button>
+            <button>Copy</button>
+          </div>
+        `) %>
+      </div>
+    </section>
+
+    <section class="component">
+      <h3 id="field-borders">Field borders</h3>
       <div>
         <blockquote>
           Text boxes, check boxes, drop-down list boxes, spin boxes and list
@@ -1080,7 +1523,7 @@
         contexts than just form elements and status fields such as to indicate
         work areas and dynamic content. For that reason, we provide three
         classes for these generic usages, <code>field-border</code>,
-        <code>field-border-disabled</code>, and
+        <code>field-border is-disabled</code>, and
         <code>status-field-border</code>. These classes only define the border
         and background color and minimal padding, so you will typically need to
         at least provide some extra padding yourself.
@@ -1093,7 +1536,7 @@
 
 
         <%- example(`
-          <div class="field-border-disabled" style="padding: 8px">
+          <div class="field-border is-disabled" style="padding: 8px">
             Disabled work area
           </div>
         `) %>

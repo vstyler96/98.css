@@ -1,0 +1,82 @@
+:root {
+  /* bl = balloon, blt = balloon tail */
+  --w98-bl-bg: #ffffe1;
+  --w98-bl-bd: #000000;
+  --w98-blt-size: 14px;
+  --w98-blt-offset: 1em;
+}
+
+[role="tooltip"] {
+  font: var(--w98-font);
+  -webkit-font-smoothing: none;
+  color: #000;
+  position: relative;
+  padding: 6px 8px;
+  border: 1px solid var(--w98-bl-bd);
+  border-radius: 6px;
+  background: var(--w98-bl-bg);
+
+  /* The tail is a right triangle: ::before draws the outline, ::after the fill */
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-color: transparent;
+  }
+
+  &::before {
+    top: calc(var(--w98-blt-size) * -1);
+    left: var(--w98-blt-offset);
+    border-width: 0 var(--w98-blt-size) var(--w98-blt-size) 0;
+    border-bottom-color: var(--w98-bl-bd);
+  }
+
+  &::after {
+    top: calc(var(--w98-blt-size) * -1 + 2px);
+    left: calc(var(--w98-blt-offset) + 1px);
+    border-width: 0 calc(var(--w98-blt-size) - 2px) calc(var(--w98-blt-size) - 1px) 0;
+    border-bottom-color: var(--w98-bl-bg);
+  }
+
+  &[id] {
+    position: absolute;
+  }
+
+  &.is-top {
+    &::before {
+      top: unset;
+      bottom: calc(var(--w98-blt-size) * -1);
+      transform: scaleY(-1);
+    }
+
+    &::after {
+      top: unset;
+      bottom: calc(var(--w98-blt-size) * -1 + 2px);
+      transform: scaleY(-1);
+    }
+  }
+
+  &.is-left {
+    &::before {
+      left: unset;
+      right: var(--w98-blt-offset);
+      transform: scaleX(-1);
+    }
+
+    &::after {
+      left: unset;
+      right: calc(var(--w98-blt-offset) + 1px);
+      transform: scaleX(-1);
+    }
+
+    &.is-top {
+      &::before,
+      &::after {
+        transform: scale(-1);
+      }
+    }
+  }
+}

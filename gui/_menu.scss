@@ -1,0 +1,195 @@
+:root {
+  --w98-mn-left: 20px;
+}
+
+ul {
+  &[role="menu"],
+  &[role="menubar"] {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    cursor: default;
+  }
+
+  &[role="menubar"] {
+    font: var(--w98-font);
+    -webkit-font-smoothing: none;
+    display: flex;
+    gap: 1px;
+    padding: 2px;
+    background: var(--w98-surface);
+    color: var(--w98-el-c);
+
+    > [role="menuitem"] {
+      position: relative;
+      padding: 3px 6px;
+
+      &:hover {
+        box-shadow: inset -1px -1px var(--w98-bd-dark), inset 1px 1px var(--w98-bd-light);
+      }
+
+      &:focus,
+      &:focus-within {
+        outline: none;
+        box-shadow: inset -1px -1px var(--w98-bd-light), inset 1px 1px var(--w98-bd-dark);
+        ~ [role="menuitem"]:focus,
+        ~ [role="menuitem"]:focus-within {
+          box-shadow: none;
+        }
+        &:has(~ [role="menuitem"]:hover) {
+          box-shadow: none;
+        }
+      }
+    }
+  }
+
+  &[role="menu"] {
+    font: var(--w98-font);
+    -webkit-font-smoothing: none;
+    position: relative;
+    min-width: 150px;
+    padding: 3px;
+    background: var(--w98-surface);
+    color: var(--w98-el-c);
+    box-shadow: var(--w98-w-sd);
+
+    [role="menuitem"] & {
+      display: none;
+      position: absolute;
+      left: 0;
+      top: 100%;
+      z-index: 99;
+    }
+
+    & [role="menuitem"] > [role="menu"] {
+      top: -3px;
+      left: calc(100% - 3px);
+    }
+
+    > [role="menuitem"] {
+      > a,
+      > button,
+      > label,
+      &[aria-haspopup="true"] {
+        all: unset;
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        width: 100%;
+        padding: 3px 16px 3px var(--w98-mn-left);
+        box-sizing: border-box;
+        white-space: nowrap;
+        color: inherit;
+
+        &:hover,
+        &:focus-visible {
+          background: var(--w98-li-bg-hl);
+          color: var(--w98-li-c-hl);
+        }
+      }
+
+      &[aria-haspopup="true"] {
+        &::after {
+          content: "";
+          position: absolute;
+          top: 50%;
+          right: 6px;
+          transform: translateY(-50%);
+          border: 4px solid transparent;
+          border-right-width: 0;
+          border-left-color: currentColor;
+        }
+      }
+    }
+  }
+
+  [role="menuitem"] {
+    position: relative;
+
+    > input[type] {
+      display: none;
+
+      & + label {
+        margin-left: 0;
+        line-height: inherit;
+
+        &::before {
+          content: none;
+        }
+      }
+
+      &:checked + label::after {
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      &[type="checkbox"]:checked + label::after {
+        left: 6px;
+      }
+
+      &[type="radio"]:checked + label::after {
+        left: 7px;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: currentColor;
+      }
+
+      &[type="checkbox"]:checked + label:hover::after {
+        filter: invert(1);
+      }
+    }
+
+    &:focus,
+    &:focus-within {
+      > [role="menu"] {
+        display: block;
+      }
+      &:has(~ [role="menuitem"]:hover) {
+        > [role="menu"] {
+          display: none;
+        }
+      }
+    }
+
+    &[aria-disabled] {
+      color: var(--w98-el-c-d);
+      text-shadow: 1px 1px 0 var(--w98-bd-light);
+      pointer-events: none;
+    }
+
+    &.has-divider {
+      &::after {
+        content: "";
+        pointer-events: none;
+        display: block;
+        margin: 3px 1px;
+        height: 2px;
+        box-shadow: inset 0 1px var(--w98-bd-dark), inset 0 -1px var(--w98-bd-light);
+      }
+    }
+
+    img {
+      position: absolute;
+      z-index: 1;
+      left: 2px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+  }
+
+  &.can-hover [role="menuitem"]:hover {
+    > [role="menu"] {
+      display: block;
+    }
+    ~ [role="menuitem"]:focus,
+    ~ [role="menuitem"]:focus-within {
+      box-shadow: none;
+      > [role="menu"] {
+        display: none;
+      }
+    }
+  }
+}

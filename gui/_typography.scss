@@ -1,0 +1,70 @@
+:root {
+  --w98-link-c: #0000ff;
+  --w98-title-c: #000080;
+}
+
+@font-face {
+  font-family: "Pixelated MS Sans Serif";
+  src: url("./fonts/ms_sans_serif.woff2") format("woff2"), url("./fonts/ms_sans_serif.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Pixelated MS Sans Serif";
+  src: url("./fonts/ms_sans_serif_bold.woff2") format("woff2"), url("./fonts/ms_sans_serif_bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
+
+a {
+  color: var(--w98-link-c);
+
+  &:focus-visible {
+    outline: 1px dotted var(--w98-link-c);
+  }
+}
+
+pre {
+  display: block;
+  background: var(--w98-field-bg);
+  box-shadow: var(--w98-field-sd);
+  padding: 12px 8px;
+  margin: 0;
+}
+
+code,
+code * {
+  font-family: monospace;
+}
+
+.instruction {
+  font: var(--w98-font);
+  -webkit-font-smoothing: none;
+  color: var(--w98-el-c);
+  font-weight: normal;
+  margin: 0 0 20px;
+
+  &-primary {
+    font-weight: bold;
+    color: var(--w98-title-c);
+  }
+}
+
+.header {
+  font: var(--w98-font);
+  -webkit-font-smoothing: none;
+  font-weight: normal;
+
+  &-document {
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    -webkit-font-smoothing: auto;
+    color: var(--w98-el-c);
+  }
+
+  &-group {
+    font-weight: bold;
+    color: var(--w98-title-c);
+  }
+}

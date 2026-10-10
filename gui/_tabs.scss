@@ -1,0 +1,54 @@
+:root {
+  --w98-tab-sd: inset -1px 0 var(--w98-bd-darker), inset 1px 1px var(--w98-bd-face),
+    inset -2px 0 var(--w98-bd-dark), inset 2px 2px var(--w98-bd-light);
+}
+
+menu[role="tablist"] {
+  position: relative;
+  margin: 0 0 -2px 0;
+  text-indent: 0;
+  list-style-type: none;
+  display: flex;
+  padding-left: 3px;
+
+  button {
+    min-width: unset;
+    min-height: unset;
+    padding: 6px;
+    margin: 0;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    box-shadow: var(--w98-tab-sd);
+    z-index: 1;
+    display: block;
+
+    &:not(:disabled):active,
+    &:not(:disabled).active {
+      box-shadow: var(--w98-tab-sd);
+      text-shadow: 0 0 var(--w98-el-c);
+    }
+
+    &[aria-selected="true"] {
+      padding-bottom: 8px;
+      margin-top: -2px;
+      margin-left: -3px;
+      background-color: var(--w98-surface);
+      position: relative;
+      z-index: 8;
+    }
+  }
+
+  &.justified button {
+    flex-grow: 1;
+    text-align: center;
+  }
+}
+
+[role="tabpanel"] {
+  position: relative;
+  z-index: 2;
+  clear: both;
+  padding: var(--w98-space);
+  background: var(--w98-surface);
+  box-shadow: var(--w98-w-sd);
+}

@@ -1,0 +1,99 @@
+:root {
+  --w98-tvb-size: 9px; /* tvb = treeview button */
+  --w98-tv-left: 16px;
+}
+
+ul.tree-view {
+  font: var(--w98-font);
+  -webkit-font-smoothing: none;
+  display: block;
+  margin: 0;
+  padding: 6px;
+
+  li {
+    list-style-type: none;
+    margin-top: 3px;
+  }
+
+  a {
+    text-decoration: none;
+    color: #000;
+
+    &:focus {
+      outline: none;
+      background-color: var(--w98-li-bg-hl);
+      color: var(--w98-li-c-hl);
+    }
+  }
+
+  ul {
+    margin: 3px 0 0 var(--w98-tv-left);
+    padding-left: var(--w98-tv-left);
+
+    > li {
+      position: relative;
+    }
+  }
+
+  &.has-container {
+    background: var(--w98-field-bg);
+    box-shadow: var(--w98-field-sd);
+  }
+
+  &.has-connector ul {
+    border-left: 1px dotted var(--w98-bd-dark);
+
+    > li::before {
+      content: "";
+      display: block;
+      position: absolute;
+      left: calc(var(--w98-tv-left) * -1);
+      top: 6px;
+      width: 12px;
+      border-bottom: 1px dotted var(--w98-bd-dark);
+    }
+
+    /* Cover the bottom of the left dotted border */
+    > li:last-child::after {
+      content: "";
+      display: block;
+      position: absolute;
+      left: calc(var(--w98-tv-left) * -1 - 4px);
+      top: 7px;
+      bottom: 0;
+      width: 8px;
+      background: var(--w98-field-bg);
+    }
+  }
+
+  &.has-collapse-button details {
+    > summary {
+      display: block;
+
+      &::before {
+        all: unset;
+        content: "+";
+        display: block;
+        float: left;
+        width: calc(var(--w98-tvb-size) - 1px);
+        height: var(--w98-tvb-size);
+        padding-left: 1px;
+        margin-right: 5px;
+        border: 1px solid var(--w98-bd-dark);
+        background-color: #fff;
+        line-height: calc(var(--w98-tvb-size) - 1px);
+        text-align: center;
+      }
+    }
+
+    &[open] > summary::before {
+      content: "-";
+    }
+  }
+
+  &.has-collapse-button ul details > summary::before {
+    margin-left: -22px;
+    position: relative;
+    z-index: 1;
+  }
+}

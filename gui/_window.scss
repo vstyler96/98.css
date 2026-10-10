@@ -1,0 +1,139 @@
+:root {
+  /* w = window */
+  --w98-w-title-grad: linear-gradient(90deg, #000080, #1084d0);
+  --w98-w-title-grad-d: linear-gradient(90deg, #808080, #b5b5b5);
+  --w98-w-title-c: #ffffff;
+}
+
+.window {
+  font: var(--w98-font);
+  -webkit-font-smoothing: none;
+  color: var(--w98-el-c);
+  box-shadow: var(--w98-w-sd);
+  background: var(--w98-surface);
+  padding: 3px;
+
+  &-body {
+    margin: var(--w98-space);
+
+    &.has-space {
+      padding: var(--w98-space);
+    }
+  }
+
+  &-footer,
+  footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--w98-space-grouped);
+    margin: var(--w98-space);
+    margin-top: 0;
+  }
+
+  &.is-bright .window-body {
+    background: var(--w98-field-bg);
+    box-shadow: var(--w98-field-sd);
+    padding: var(--w98-space);
+  }
+
+  &[role="dialog"] {
+    position: fixed;
+    z-index: 999;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    visibility: hidden;
+
+    &:target,
+    &[open] {
+      visibility: visible;
+    }
+  }
+}
+
+.title-bar {
+  font: var(--w98-font);
+  -webkit-font-smoothing: none;
+  background: var(--w98-w-title-grad);
+  padding: 3px 2px 3px 3px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  /* Windows 98 title bars are active by default; `.inactive` greys them out */
+  .window.inactive &,
+  &.inactive {
+    background: var(--w98-w-title-grad-d);
+  }
+
+  &-text {
+    font-weight: bold;
+    color: var(--w98-w-title-c);
+    letter-spacing: 0;
+    margin-right: 24px;
+  }
+
+  &-controls {
+    display: flex;
+
+    button {
+      padding: 0;
+      display: block;
+      min-width: 16px;
+      min-height: 14px;
+      background-repeat: no-repeat;
+
+      &:focus-visible {
+        outline: none;
+      }
+
+      &[aria-label="Minimize"],
+      &.is-minimize {
+        background-image: url("./icon/minimize.svg");
+        background-position: bottom 3px left 4px;
+      }
+
+      &[aria-label="Maximize"],
+      &.is-maximize {
+        background-image: url("./icon/maximize.svg");
+        background-position: top 2px left 3px;
+
+        &:disabled {
+          background-image: url("./icon/maximize-disabled.svg");
+        }
+      }
+
+      &[aria-label="Restore"],
+      &.is-restore {
+        background-image: url("./icon/restore.svg");
+        background-position: top 2px left 3px;
+      }
+
+      &[aria-label="Help"],
+      &.is-help {
+        background-image: url("./icon/help.svg");
+        background-position: top 2px left 5px;
+      }
+
+      &[aria-label="Close"],
+      &.is-close {
+        margin-left: 2px;
+        background-image: url("./icon/close.svg");
+        background-position: top 3px left 4px;
+      }
+    }
+  }
+}
+
+.status-bar {
+  margin: 0 1px;
+  display: flex;
+  gap: 1px;
+
+  &-field {
+    box-shadow: var(--w98-status-sd);
+    flex-grow: 1;
+    padding: 2px 3px;
+    margin: 0;
+  }
+}

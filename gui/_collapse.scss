@@ -1,0 +1,39 @@
+:root {
+  /* clc = collapse chevron */
+  --w98-clc-size: 4px;
+}
+
+details {
+  margin-top: 0;
+
+  > summary {
+    display: inline;
+    position: relative;
+    margin-bottom: 0;
+    cursor: default;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: calc(50% - var(--w98-clc-size));
+      right: calc(100% + 2px);
+      border: var(--w98-clc-size) solid transparent;
+      border-left-color: #000;
+    }
+
+    &:focus-visible {
+      outline: 1px dotted #000;
+    }
+
+    &::-webkit-details-marker,
+    &::marker {
+      display: none;
+    }
+  }
+
+  &[open] > summary:before {
+    top: calc(50% - var(--w98-clc-size) / 2);
+    transform: rotateZ(90deg);
+    transform-origin: 25% 50%;
+  }
+}

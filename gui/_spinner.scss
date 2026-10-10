@@ -1,0 +1,20 @@
+/* Windows 98 had no spinner control, so this is the hourglass "busy" cursor */
+.spinner,
+.loader {
+  background: url("./icon/hourglass.svg") no-repeat center;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  color: transparent;
+  overflow: hidden;
+
+  &.animate {
+    animation: w98-spinner 2s steps(1) infinite;
+  }
+}
+
+@keyframes w98-spinner {
+  50% {
+    transform: rotate(180deg);
+  }
+}

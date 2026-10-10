@@ -1,0 +1,58 @@
+input {
+  &[type="url"],
+  &[type="tel"],
+  &[type="text"],
+  &[type="email"],
+  &[type="password"] {
+    height: 21px;
+  }
+
+  &[type="number"] {
+    /* need this 1 pixel to fit the spinner controls in box */
+    height: 22px;
+  }
+
+  &[type="url"],
+  &[type="tel"],
+  &[type="text"],
+  &[type="email"],
+  &[type="number"],
+  &[type="password"] {
+    /* For some reason descenders are getting cut off without this */
+    line-height: 2;
+  }
+}
+
+input[type="url"],
+input[type="tel"],
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+textarea {
+  font: var(--w98-font);
+  -webkit-font-smoothing: none;
+  color: var(--w98-el-c);
+  padding: 3px 4px;
+  border: none;
+  border-radius: 0;
+  box-shadow: var(--w98-field-sd);
+  background-color: var(--w98-field-bg);
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:read-only {
+    background-color: var(--w98-field-bg-d);
+  }
+
+  &:disabled {
+    background-color: var(--w98-field-bg-d);
+    color: var(--w98-el-c-d);
+  }
+}

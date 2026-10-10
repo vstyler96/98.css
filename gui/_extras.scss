@@ -1,0 +1,32 @@
+/* 98.css extras: not part of the shared component API */
+
+.sunken-panel {
+  box-sizing: border-box;
+  border: 2px groove transparent;
+  border-image: url("./icon/sunken-panel-border.svg") 2;
+  overflow: auto;
+  background-color: var(--w98-field-bg);
+}
+
+.vertical-bar {
+  width: 4px;
+  height: 20px;
+  background: var(--w98-surface);
+  box-shadow: var(--w98-el-sd);
+}
+
+.field-border {
+  background: var(--w98-field-bg);
+  box-shadow: var(--w98-field-sd);
+  padding: 2px;
+
+  &.is-disabled {
+    background: var(--w98-field-bg-d);
+  }
+}
+
+.status-field-border {
+  background: var(--w98-surface);
+  box-shadow: var(--w98-status-sd);
+  padding: 1px;
+}

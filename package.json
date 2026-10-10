@@ -1,31 +1,39 @@
 {
-  "name": "98.css",
-  "version": "0.1.21",
+  "name": "@vstyler96/98.css",
+  "version": "2.0.0",
   "description": "A design system for building faithful recreations of old UIs",
   "main": "dist/98.css",
+  "publishConfig": {
+    "access": "public"
+  },
   "directories": {
     "doc": "docs"
   },
   "scripts": {
     "build": "node build.js",
+    "start": "node server.js",
     "deploy:docs": "npm run build && gh-pages -d dist",
     "release": "npm run build && npm publish"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jdan/98.css.git"
+    "url": "git+https://github.com/vstyler96/98.css.git"
   },
   "keywords": [
     "css",
     "windows98"
   ],
-  "author": "Jordan Scales <scalesjordan@gmail.com>",
+  "contributors": [
+    "Jordan Scales <scalesjordan@gmail.com>",
+    "Vincent GS <vstyler96@gmail.com> (https://github.com/vstyler96)"
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jdan/98.css/issues"
+    "url": "https://github.com/vstyler96/98.css/issues"
   },
-  "homepage": "https://github.com/jdan/98.css",
+  "homepage": "https://github.com/vstyler96/98.css",
   "devDependencies": {
+    "autoprefixer": "^10.4.8",
     "chokidar": "^3.3.1",
     "cssnano": "^5.0.1",
     "dedent": "^0.7.0",
@@ -36,10 +44,16 @@
     "live-server": "^1.2.1",
     "mkdirp": "^1.0.4",
     "postcss": "^8.2.12",
+    "postcss-base64": "^0.7.1",
     "postcss-calc": "^7.0.2",
-    "postcss-copy": "^7.1.0",
-    "postcss-css-variables": "^0.14.0",
-    "postcss-inline": "^1.2.0",
-    "postcss-inline-svg": "^4.1.0"
-  }
+    "postcss-css-variables": "^0.19.0",
+    "postcss-import": "^12.0.1",
+    "postcss-nested": "^4.2.1",
+    "postcss-prefix-selector": "^1.15.0"
+  },
+  "files": [
+    "dist/gui",
+    "dist/fonts",
+    "dist/98*"
+  ]
 }

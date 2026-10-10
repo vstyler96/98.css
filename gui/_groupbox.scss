@@ -1,0 +1,45 @@
+fieldset {
+  font: var(--w98-font);
+  -webkit-font-smoothing: none;
+  border: 2px groove transparent;
+  border-image: url("./icon/groupbox-border.svg") 2;
+  padding: calc(2px + var(--w98-space));
+  padding-block-start: var(--w98-space);
+  margin: 0;
+
+  legend {
+    font: var(--w98-font);
+    -webkit-font-smoothing: none;
+    background: var(--w98-surface);
+  }
+}
+
+label {
+  font: var(--w98-font);
+  -webkit-font-smoothing: none;
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+}
+
+.field-row {
+  display: flex;
+  align-items: center;
+
+  > * + * {
+    margin-left: var(--w98-space-grouped);
+  }
+}
+
+.field-row-stacked {
+  display: flex;
+  flex-direction: column;
+
+  * + * {
+    margin-top: var(--w98-space-grouped);
+  }
+}
+
+[class^="field-row"] + [class^="field-row"] {
+  margin-top: var(--w98-space-grouped);
+}

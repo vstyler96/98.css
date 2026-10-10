@@ -1,0 +1,66 @@
+:root {
+  --w98-pg-bg: #000080;
+  --w98-pg-bg-paused: #808000;
+  --w98-pg-bg-error: #800000;
+  --w98-pg-seg: linear-gradient(90deg, transparent 0 16px, var(--w98-surface) 0 18px); /* segment gaps */
+  --w98-pg-seg-size: 18px 100%;
+}
+
+[role="progressbar"] {
+  height: 32px;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 4px;
+  box-shadow: inset -2px -2px var(--w98-bd-face), inset 2px 2px var(--w98-bd-dark);
+
+  > div {
+    height: 100%;
+    background: var(--w98-pg-seg) 0 0 / var(--w98-pg-seg-size), var(--w98-pg-bg);
+  }
+
+  &.is-smooth > div {
+    background: var(--w98-pg-bg);
+  }
+
+  &.paused > div {
+    background-color: var(--w98-pg-bg-paused);
+  }
+
+  &.error > div {
+    background-color: var(--w98-pg-bg-error);
+  }
+
+  &.animate > div {
+    animation: w98-progressbar 0.6s steps(6) infinite;
+  }
+
+  &.marquee::before {
+    content: "";
+    display: block;
+    width: 54px;
+    height: 100%;
+    background: var(--w98-pg-seg) 0 0 / var(--w98-pg-seg-size), var(--w98-pg-bg);
+    animation: w98-marquee 2s steps(30) infinite;
+  }
+}
+
+/* Crawl the segments along the bar */
+@keyframes w98-progressbar {
+  from {
+    background-position-x: -18px;
+  }
+  to {
+    background-position-x: 0;
+  }
+}
+
+/* Slide a block of three segments across the bar */
+@keyframes w98-marquee {
+  from {
+    margin-left: -54px;
+  }
+  to {
+    margin-left: 100%;
+  }
+}

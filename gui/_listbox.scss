@@ -1,0 +1,44 @@
+[role="listbox"],
+select[multiple] {
+  font: var(--w98-font);
+  -webkit-font-smoothing: none;
+  color: var(--w98-el-c);
+  display: block;
+  margin: 0;
+  padding: 2px;
+  list-style: none;
+  border: none;
+  border-radius: 0;
+  background: var(--w98-field-bg);
+  box-shadow: var(--w98-field-sd);
+  overflow-y: auto;
+
+  &.has-shadow {
+    box-shadow: var(--w98-field-sd), 2px 2px 0 var(--w98-bd-dark);
+  }
+
+  &.has-hover {
+    [role="option"]:hover,
+    option:hover {
+      background-color: var(--w98-li-bg-hl);
+      color: var(--w98-li-c-hl);
+    }
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  [role="option"],
+  option {
+    padding: 1px 2px;
+    cursor: default;
+
+    &[aria-selected]:not([aria-selected="false"]),
+    &:checked,
+    &:focus {
+      background: var(--w98-li-bg-hl);
+      color: var(--w98-li-c-hl);
+    }
+  }
+}
